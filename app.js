@@ -39,11 +39,26 @@ function clearMessage() {
   $("message").classList.add("hidden");
 }
 
+function backendFromQuery() {
+  const value = new URLSearchParams(window.location.search).get("api");
+  if (!value) return "";
+  try {
+    const url = new URL(value);
+    if (url.protocol !== "https:") return "";
+    return url.href.replace(/\/$/, "");
+  } catch (error) {
+    return "";
+  }
+}
+
 async function refreshBackend() {
   try {
-    const response = await fetch(`backend-url.json?t=${Date.now()}`, { cache: "no-store" });
-    const config = await response.json();
-    const nextUrl = String(config.url || "").replace(/\/$/, "");
+    let nextUrl = backendFromQuery();
+    if (!nextUrl) {
+      const response = await fetch(`backend-url.json?t=${Date.now()}`, { cache: "no-store" });
+      const config = await response.json();
+      nextUrl = String(config.url || "").replace(/\/$/, "");
+    }
     if (!nextUrl) throw new Error("服务尚未启动");
     backendUrl = nextUrl;
     const health = await fetch(`${backendUrl}/health?t=${Date.now()}`, { cache: "no-store" });
