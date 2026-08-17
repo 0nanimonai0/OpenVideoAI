@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#07111f">
+  <title>Video AI · 视频分析演示</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+  <main class="shell">
+    <header>
+      <a class="brand" href="./" aria-label="Video AI 首页">
+        <span class="brand-mark">V</span>
+        <span>Video AI</span>
+      </a>
+      <div id="serviceStatus" class="status status-checking">
+        <span class="status-dot"></span>
+        <span>正在连接分析服务</span>
+      </div>
+    </header>
+
+    <section class="hero">
+      <p class="eyebrow">LOCAL AI · PUBLIC DEMO</p>
+      <h1>上传视频，<br><span>立即获取时长</span></h1>
+      <p class="intro">这是一个轻量的视频 AI 工作流演示。视频将发送到演示机器进行解析，完成后立即返回媒体时长。</p>
+    </section>
+
+    <section class="workspace" aria-label="视频分析区">
+      <label id="dropZone" class="drop-zone" for="videoFile">
+        <input id="videoFile" type="file" accept="video/mp4,video/quicktime,.m4v">
+        <div class="upload-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" role="img"><path d="M12 16V4m0 0L7.5 8.5M12 4l4.5 4.5M5 13v5a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2v-5"/></svg>
+        </div>
+        <strong>选择一个视频</strong>
+        <span>支持 MP4、MOV、M4V · 最大 100 MB</span>
+      </label>
+
+      <div id="fileCard" class="file-card hidden">
+        <video id="preview" muted playsinline preload="metadata"></video>
+        <div class="file-info">
+          <strong id="fileName"></strong>
+          <span id="fileMeta"></span>
+        </div>
+        <button id="changeFile" class="text-button" type="button">更换</button>
+      </div>
+
+      <div id="progressWrap" class="progress-wrap hidden" aria-live="polite">
+        <div class="progress-copy">
+          <span id="progressLabel">正在上传视频</span>
+          <strong id="progressValue">0%</strong>
+        </div>
+        <div class="progress-track"><div id="progressBar" class="progress-bar"></div></div>
+      </div>
+
+      <button id="analyzeButton" class="primary-button" type="button" disabled>
+        <span>开始分析</span>
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 12h14m-5-5 5 5-5 5"/></svg>
+      </button>
+
+      <div id="message" class="message hidden" role="alert"></div>
+
+      <article id="resultCard" class="result-card hidden" aria-live="polite">
+        <div class="result-top">
+          <div>
+            <p>分析完成</p>
+            <h2>视频时长</h2>
+          </div>
+          <span class="checkmark">✓</span>
+        </div>
+        <div id="durationResult" class="duration-result">00:00</div>
+        <div class="result-grid">
+          <div><span>文件名</span><strong id="resultName"></strong></div>
+          <div><span>精确秒数</span><strong id="resultSeconds"></strong></div>
+          <div><span>解析方式</span><strong id="resultMethod">MP4 元数据</strong></div>
+        </div>
+      </article>
+    </section>
+
+    <footer>演示服务仅用于小规模测试 · 上传文件解析完成后不会保留</footer>
+  </main>
+  <script src="app.js" defer></script>
+</body>
+</html>
